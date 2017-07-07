@@ -10,171 +10,411 @@ sealed trait Currency {
     def amount: Value
 }
 
+/**
+ * Our converting type class
+ *
+ * @tparam T
+ */
+sealed trait CurrencyOps[T <: Currency]{
+    def identifier: String
+    def to[B <: Currency](currencyA: T)(implicit currencyConverter: CurrencyOps[B], baseValue: Rates): Value =
+        currencyA.amount * (baseValue.rate[B] / baseValue.rate[T](this))
+    def apply(amount: Value): T
+}
+
 abstract class DeriveTypeClass[T <: Currency](implicit classTag: ClassTag[T]){
     val prefix: String = classTag.runtimeClass.getSimpleName
-    implicit val converter: Ops[T] = Ops[T](prefix)
 }
 
 final case class EUR(amount: Value) extends Currency
 
-object EUR extends DeriveTypeClass[EUR]
+object EUR extends DeriveTypeClass[EUR] {
+
+    implicit val converter: CurrencyOps[EUR] = new CurrencyOps[EUR] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): EUR = EUR(amount)
+    }
+}
 
 final case class AUD(amount: Value) extends Currency
 
-object AUD extends DeriveTypeClass[AUD]
+object AUD extends DeriveTypeClass[AUD] {
+
+    implicit val converter: CurrencyOps[AUD] = new CurrencyOps[AUD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): AUD = AUD(amount)
+    }
+}
 
 final case class USD(amount: Value) extends Currency
 
-object USD extends DeriveTypeClass[USD]
+object USD extends DeriveTypeClass[USD] {
+
+    implicit val converter: CurrencyOps[USD] = new CurrencyOps[USD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): USD = USD(amount)
+    }
+}
 
 final case class CAD(amount: Value) extends Currency
 
-object CAD extends DeriveTypeClass[CAD]
+object CAD extends DeriveTypeClass[CAD] {
+
+    implicit val converter: CurrencyOps[CAD] = new CurrencyOps[CAD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): CAD = CAD(amount)
+    }
+}
 
 final case class BGN (amount: Value) extends Currency
 
-object BGN extends DeriveTypeClass[BGN]
+object BGN extends DeriveTypeClass[BGN] {
 
+    implicit val converter: CurrencyOps[BGN] = new CurrencyOps[BGN] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): BGN = BGN(amount)
+    }
+}
 
 final case class BRL (amount: Value) extends Currency
 
-object BRL extends DeriveTypeClass[BRL]
+object BRL extends DeriveTypeClass[BRL] {
 
+    implicit val converter: CurrencyOps[BRL] = new CurrencyOps[BRL] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): BRL = BRL(amount)
+    }
+}
 
 final case class CHF (amount: Value) extends Currency
 
-object CHF extends DeriveTypeClass[CHF]
+object CHF extends DeriveTypeClass[CHF] {
 
+    implicit val converter: CurrencyOps[CHF] = new CurrencyOps[CHF] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): CHF = CHF(amount)
+    }
+}
 
 final case class CNY (amount: Value) extends Currency
 
-object CNY extends DeriveTypeClass[CNY]
+object CNY extends DeriveTypeClass[CNY] {
 
+    implicit val converter: CurrencyOps[CNY] = new CurrencyOps[CNY] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): CNY = CNY(amount)
+    }
+}
 
 final case class CZK (amount: Value) extends Currency
 
-object CZK extends DeriveTypeClass[CZK]
+object CZK extends DeriveTypeClass[CZK] {
 
+    implicit val converter: CurrencyOps[CZK] = new CurrencyOps[CZK] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): CZK = CZK(amount)
+    }
+}
 
 final case class DKK (amount: Value) extends Currency
 
-object DKK extends DeriveTypeClass[DKK]
+object DKK extends DeriveTypeClass[DKK] {
 
+    implicit val converter: CurrencyOps[DKK] = new CurrencyOps[DKK] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): DKK = DKK(amount)
+    }
+}
 
 final case class GBP (amount: Value) extends Currency
 
-object GBP extends DeriveTypeClass[GBP]
+object GBP extends DeriveTypeClass[GBP] {
 
+    implicit val converter: CurrencyOps[GBP] = new CurrencyOps[GBP] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): GBP = GBP(amount)
+    }
+}
 
 final case class HKD (amount: Value) extends Currency
 
-object HKD extends DeriveTypeClass[HKD]
+object HKD extends DeriveTypeClass[HKD] {
 
+    implicit val converter: CurrencyOps[HKD] = new CurrencyOps[HKD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): HKD = HKD(amount)
+    }
+}
 
 final case class HRK (amount: Value) extends Currency
 
-object HRK extends DeriveTypeClass[HRK]
+object HRK extends DeriveTypeClass[HRK] {
 
+    implicit val converter: CurrencyOps[HRK] = new CurrencyOps[HRK] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): HRK = HRK(amount)
+    }
+}
 
 final case class HUF (amount: Value) extends Currency
 
-object HUF extends DeriveTypeClass[HUF]
+object HUF extends DeriveTypeClass[HUF] {
 
+    implicit val converter: CurrencyOps[HUF] = new CurrencyOps[HUF] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): HUF = HUF(amount)
+    }
+}
 
 final case class IDR (amount: Value) extends Currency
 
-object IDR extends DeriveTypeClass[IDR]
+object IDR extends DeriveTypeClass[IDR] {
 
+    implicit val converter: CurrencyOps[IDR] = new CurrencyOps[IDR] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): IDR = IDR(amount)
+    }
+}
 
 final case class ILS (amount: Value) extends Currency
 
-object ILS extends DeriveTypeClass[ILS]
+object ILS extends DeriveTypeClass[ILS] {
 
+    implicit val converter: CurrencyOps[ILS] = new CurrencyOps[ILS] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): ILS = ILS(amount)
+    }
+}
 
 final case class INR (amount: Value) extends Currency
 
-object INR extends DeriveTypeClass[INR]
+object INR extends DeriveTypeClass[INR] {
 
+    implicit val converter: CurrencyOps[INR] = new CurrencyOps[INR] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): INR = INR(amount)
+    }
+}
 
 final case class JPY (amount: Value) extends Currency
 
-object JPY extends DeriveTypeClass[JPY]
+object JPY extends DeriveTypeClass[JPY] {
 
+    implicit val converter: CurrencyOps[JPY] = new CurrencyOps[JPY] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): JPY = JPY(amount)
+    }
+}
 
 final case class KRW (amount: Value) extends Currency
 
-object KRW extends DeriveTypeClass[KRW]
+object KRW extends DeriveTypeClass[KRW] {
 
+    implicit val converter: CurrencyOps[KRW] = new CurrencyOps[KRW] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): KRW = KRW(amount)
+    }
+}
 
 final case class MXN (amount: Value) extends Currency
 
-object MXN extends DeriveTypeClass[MXN]
+object MXN extends DeriveTypeClass[MXN] {
 
+    implicit val converter: CurrencyOps[MXN] = new CurrencyOps[MXN] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): MXN = MXN(amount)
+    }
+}
 
 final case class MYR (amount: Value) extends Currency
 
-object MYR extends DeriveTypeClass[MYR]
+object MYR extends DeriveTypeClass[MYR] {
 
+    implicit val converter: CurrencyOps[MYR] = new CurrencyOps[MYR] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): MYR = MYR(amount)
+    }
+}
 
 final case class NOK (amount: Value) extends Currency
 
-object NOK extends DeriveTypeClass[NOK]
+object NOK extends DeriveTypeClass[NOK] {
 
+    implicit val converter: CurrencyOps[NOK] = new CurrencyOps[NOK] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): NOK = NOK(amount)
+    }
+}
 
 final case class NZD (amount: Value) extends Currency
 
-object NZD extends DeriveTypeClass[NZD]
+object NZD extends DeriveTypeClass[NZD] {
 
+    implicit val converter: CurrencyOps[NZD] = new CurrencyOps[NZD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): NZD = NZD(amount)
+    }
+}
 
 final case class PHP (amount: Value) extends Currency
 
-object PHP extends DeriveTypeClass[PHP]
+object PHP extends DeriveTypeClass[PHP] {
 
+    implicit val converter: CurrencyOps[PHP] = new CurrencyOps[PHP] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): PHP = PHP(amount)
+    }
+}
 
 final case class PLN (amount: Value) extends Currency
 
-object PLN extends DeriveTypeClass[PLN]
+object PLN extends DeriveTypeClass[PLN] {
 
+    implicit val converter: CurrencyOps[PLN] = new CurrencyOps[PLN] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): PLN = PLN(amount)
+    }
+}
 
 final case class RON (amount: Value) extends Currency
 
-object RON extends DeriveTypeClass[RON]
+object RON extends DeriveTypeClass[RON] {
 
+    implicit val converter: CurrencyOps[RON] = new CurrencyOps[RON] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): RON = RON(amount)
+    }
+}
 
 final case class RUB (amount: Value) extends Currency
 
-object RUB extends DeriveTypeClass[RUB]
+object RUB extends DeriveTypeClass[RUB] {
 
+    implicit val converter: CurrencyOps[RUB] = new CurrencyOps[RUB] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): RUB = RUB(amount)
+    }
+}
 
 final case class SEK (amount: Value) extends Currency
 
-object SEK extends DeriveTypeClass[SEK]
+object SEK extends DeriveTypeClass[SEK] {
 
+    implicit val converter: CurrencyOps[SEK] = new CurrencyOps[SEK] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): SEK = SEK(amount)
+    }
+}
 
 final case class SGD (amount: Value) extends Currency
 
-object SGD extends DeriveTypeClass[SGD]
+object SGD extends DeriveTypeClass[SGD] {
 
+    implicit val converter: CurrencyOps[SGD] = new CurrencyOps[SGD] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): SGD = SGD(amount)
+    }
+}
 
 final case class THB (amount: Value) extends Currency
 
-object THB extends DeriveTypeClass[THB]
+object THB extends DeriveTypeClass[THB] {
 
+    implicit val converter: CurrencyOps[THB] = new CurrencyOps[THB] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): THB = THB(amount)
+    }
+}
 
 final case class TRY (amount: Value) extends Currency
 
-object TRY extends DeriveTypeClass[TRY]
+object TRY extends DeriveTypeClass[TRY] {
+
+    implicit val converter: CurrencyOps[TRY] = new CurrencyOps[TRY] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): TRY = TRY(amount)
+    }
+}
 
 final case class ZAR (amount: Value) extends Currency
 
-object ZAR extends DeriveTypeClass[ZAR]
+object ZAR extends DeriveTypeClass[ZAR] {
+
+    implicit val converter: CurrencyOps[ZAR] = new CurrencyOps[ZAR] {
+
+        val identifier: String = prefix
+
+        def apply(amount: Value): ZAR = ZAR(amount)
+    }
+}
 
 
 
 object Currency {
 
 
-    def deriveConverter[T <: Currency](ident: String): CurrencyOps[T] = Ops[T](ident)
 
     /**
      *
@@ -228,39 +468,39 @@ object Currency {
      * @tparam Target
      * @return
      */
-    private [this] def convertGeneric[Target <: Currency : CurrencyOps](a: Currency)(implicit b: BaseValue): Value = a match {
-        case c: EUR => c.convertTo[Target]
-        case c: AUD => c.convertTo[Target]
-        case c: BGN => c.convertTo[Target]
-        case c: BRL => c.convertTo[Target]
-        case c: CAD => c.convertTo[Target]
-        case c: CHF => c.convertTo[Target]
-        case c: CNY => c.convertTo[Target]
-        case c: CZK => c.convertTo[Target]
-        case c: DKK => c.convertTo[Target]
-        case c: GBP => c.convertTo[Target]
-        case c: HKD => c.convertTo[Target]
-        case c: HRK => c.convertTo[Target]
-        case c: HUF => c.convertTo[Target]
-        case c: IDR => c.convertTo[Target]
-        case c: ILS => c.convertTo[Target]
-        case c: INR => c.convertTo[Target]
-        case c: JPY => c.convertTo[Target]
-        case c: KRW => c.convertTo[Target]
-        case c: MXN => c.convertTo[Target]
-        case c: MYR => c.convertTo[Target]
-        case c: NOK => c.convertTo[Target]
-        case c: NZD => c.convertTo[Target]
-        case c: PHP => c.convertTo[Target]
-        case c: PLN => c.convertTo[Target]
-        case c: RON => c.convertTo[Target]
-        case c: RUB => c.convertTo[Target]
-        case c: SEK => c.convertTo[Target]
-        case c: SGD => c.convertTo[Target]
-        case c: THB => c.convertTo[Target]
-        case c: TRY => c.convertTo[Target]
-        case c: USD => c.convertTo[Target]
-        case c: ZAR => c.convertTo[Target]
+    private [this] def convertGeneric[Target <: Currency : CurrencyOps](a: Currency)(implicit b: Rates): Value = a match {
+        case c: EUR => c.convertToValue[Target]
+        case c: AUD => c.convertToValue[Target]
+        case c: BGN => c.convertToValue[Target]
+        case c: BRL => c.convertToValue[Target]
+        case c: CAD => c.convertToValue[Target]
+        case c: CHF => c.convertToValue[Target]
+        case c: CNY => c.convertToValue[Target]
+        case c: CZK => c.convertToValue[Target]
+        case c: DKK => c.convertToValue[Target]
+        case c: GBP => c.convertToValue[Target]
+        case c: HKD => c.convertToValue[Target]
+        case c: HRK => c.convertToValue[Target]
+        case c: HUF => c.convertToValue[Target]
+        case c: IDR => c.convertToValue[Target]
+        case c: ILS => c.convertToValue[Target]
+        case c: INR => c.convertToValue[Target]
+        case c: JPY => c.convertToValue[Target]
+        case c: KRW => c.convertToValue[Target]
+        case c: MXN => c.convertToValue[Target]
+        case c: MYR => c.convertToValue[Target]
+        case c: NOK => c.convertToValue[Target]
+        case c: NZD => c.convertToValue[Target]
+        case c: PHP => c.convertToValue[Target]
+        case c: PLN => c.convertToValue[Target]
+        case c: RON => c.convertToValue[Target]
+        case c: RUB => c.convertToValue[Target]
+        case c: SEK => c.convertToValue[Target]
+        case c: SGD => c.convertToValue[Target]
+        case c: THB => c.convertToValue[Target]
+        case c: TRY => c.convertToValue[Target]
+        case c: USD => c.convertToValue[Target]
+        case c: ZAR => c.convertToValue[Target]
     }
 
     /**
@@ -270,8 +510,23 @@ object Currency {
      * @tparam A
      */
     implicit class ConverterOps[A <: Currency](val c: A) extends AnyVal{
-        def convertTo[B <: Currency](implicit c1: CurrencyOps[A], c2: CurrencyOps[B], b: BaseValue): Value = {
+        def convertToValue[B <: Currency](implicit c1: CurrencyOps[A], c2: CurrencyOps[B], b: Rates): Value = {
             c1.to[B](c)
+        }
+
+
+        /**
+         * Convert to an instance of the desired type
+         * Convert to
+         *
+         * @param c1
+         * @param c2
+         * @param b
+         * @tparam B
+         * @return
+         */
+        def convertTo[B <: Currency](implicit c1: CurrencyOps[A], c2: CurrencyOps[B], b: Rates): B = {
+            c2(c1.to[B](c))
         }
     }
 
@@ -281,6 +536,6 @@ object Currency {
      * @param a
      */
     implicit class GenericOps(val a: Currency) extends AnyVal {
-        def convertGenericTo[T <: Currency : CurrencyOps](implicit b: BaseValue): Value = convertGeneric[T](a)
+        def convertGenericTo[T <: Currency : CurrencyOps](implicit b: Rates): Value = convertGeneric[T](a)
     }
 }
