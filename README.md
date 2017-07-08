@@ -1,6 +1,6 @@
 # SFixer
 
-Sfixer is a type safe wrapper for currency conversions in scala pulled from [sfixer.fixer.io](http://sfixer.fixer.io/). 
+Sfixer is a type safe wrapper for currency conversions in scala pulled from [fixer.io](http://sfixer.fixer.io/). 
 Sfixer uses [circe](https://github.com/circe/circe) and Jodatime. 
 
 Sfixer is http framework agnostic in its core implementation, but will provide a (WIP) akka transport api.
