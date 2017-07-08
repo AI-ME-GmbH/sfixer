@@ -41,7 +41,8 @@ lazy val commonSettings = Seq(
       "io.circe" %% "circe-core" % circeV,
       "io.circe" %% "circe-generic" % circeV,
       "io.circe" %% "circe-parser" % circeV,
-      "com.github.nscala-time" %% "nscala-time" % nscalaTimeV
+      "com.github.nscala-time" %% "nscala-time" % nscalaTimeV,
+      "com.ironcorelabs" %% "cats-scalatest" % "2.2.0" % "test"
     )
   }
 )
@@ -49,8 +50,6 @@ lazy val commonSettings = Seq(
 lazy val akkaDependencies = Seq(
   name := "sfixr-akka",
   libraryDependencies ++= {
-    val catsV = "0.9.0"
-    val circeV = "0.8.0"
     val akkaHttpV = "10.0.9"
     val akkaV = "2.5.3"
     val nscalaTimeV = "2.16.0"
@@ -73,6 +72,7 @@ lazy val core = Project(id="sfixr-core", base = file("core"))
 lazy val akka = Project(id="sfixr-akka", base=file("sfixr-akka"))
   .settings(commonSettings)
   .settings(akkaDependencies)
+  .dependsOn(core)
 
 lazy val root = Project(id="root", base = file("."))
   .settings(commonSettings)

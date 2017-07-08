@@ -1,24 +1,24 @@
-package fixer
+package sfixer.fixer
 
-import models._
+import sfixer.models._
 import org.joda.time.DateTime
 
 object FixerAPIEndpoints {
 
   /**
-   * The fixer default endpoint.
+   * The sfixer.fixer default endpoint.
    *
    */
   val BASE_ENDPOINT = "https://api.fixer.io/"
 
   /**
-   * The default date endpoint, as on http://fixer.io/
+   * The default date endpoint, as on http://sfixer.fixer.io/
    *
    */
   val DEFAULT_DATE = "latest"
 
   /**
-   * The default Date format, as stated on http://fixer.io/
+   * The default Date format, as stated on http://sfixer.fixer.io/
    *
    */
   val DEFAULT_DATEFORMAT = "YYYY-MM-dd"
