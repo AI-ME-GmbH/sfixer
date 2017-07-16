@@ -1,7 +1,9 @@
+package common
+
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.{Assertion, FlatSpec, Matchers}
-import sfixer.models._
 import sfixer.models.Rates.AllFixerRates
+import sfixer.models._
 
 trait ConversionTestBase extends FlatSpec with Matchers{
   /**

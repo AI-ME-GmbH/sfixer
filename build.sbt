@@ -34,7 +34,6 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= {
     val catsV = "0.9.0"
     val circeV = "0.8.0"
-    val akkaHttpV = "10.0.9"
     val nscalaTimeV = "2.16.0"
     Seq(
       "org.typelevel" %% "cats" % catsV,
@@ -65,11 +64,11 @@ lazy val akkaDependencies = Seq(
 )
 
 
-lazy val core = Project(id="sfixr-core", base = file("core"))
+lazy val core = Project(id="sfixer-core", base = file("core"))
   .settings(name := "dolla-core")
   .settings(commonSettings)
 
-lazy val akka = Project(id="sfixr-akka", base=file("sfixr-akka"))
+lazy val akka = Project(id="sfixer-akka", base=file("sfixr-akka"))
   .settings(commonSettings)
   .settings(akkaDependencies)
   .dependsOn(core)

@@ -3,7 +3,8 @@ package sfixer.models
 import scala.reflect.ClassTag
 
 /**
- * Our currency implementations
+ * The Currency ADT
+ * ･｡ﾟ[$̅(̲̅ ͡° ͜ʖ ͡°̲̅)̅$̅]｡ﾟ.*
  *
  */
 sealed trait Currency {
@@ -41,6 +42,13 @@ sealed trait CurrencyOps[T <: Currency]{
    */
   def to[B <: Currency](currencyA: T, rates: Rates)(implicit ops: CurrencyOps[B]): CurrencyValue =
     (currencyA.amount * rates.rate[B]) / rates.rate[T](this)
+
+  /**
+   * Return an instance of the currency
+   *
+   * @param amount
+   * @return
+   */
   def apply(amount: CurrencyValue): T
 }
 
@@ -439,9 +447,7 @@ object ZAR extends DerivePrefix[ZAR] {
 }
 
 
-
 object Currency {
-
 
 
   /**
@@ -545,10 +551,10 @@ object Currency {
   /**
    * Operations on currency
    *
-   * @param c
+   * @param currency
    * @tparam A
    */
-  implicit class ConverterOps[A <: Currency : CurrencyOps](val c: A)(implicit c1: CurrencyOps[A]) {
+  implicit class ConverterOps[A <: Currency](val currency: A)(implicit c1Ops: CurrencyOps[A]) {
 
     /**
      * Convert to unwrapped
@@ -558,7 +564,7 @@ object Currency {
      * @return
      */
     def convertToValue[B <: Currency : CurrencyOps](implicit r: Rates): CurrencyValue = {
-      c1.to[B](c).setScale(SCALE, ROUNDING_MODE)
+      c1Ops.to[B](currency).setScale(SCALE, ROUNDING_MODE)
     }
 
     /**
@@ -569,7 +575,7 @@ object Currency {
      * @return
      */
     def convertToValue[B <: Currency : CurrencyOps](r: Rates): CurrencyValue = {
-      c1.to[B](c,r).setScale(SCALE, ROUNDING_MODE)
+      c1Ops.to[B](currency,r).setScale(SCALE, ROUNDING_MODE)
     }
 
     /**
@@ -581,7 +587,7 @@ object Currency {
      */
     def convertTo[B <: Currency : CurrencyOps](implicit b: Rates): B = {
       val c2 = implicitly[CurrencyOps[B]]
-      c2(c1.to[B](c).setScale(SCALE, ROUNDING_MODE))
+      c2(c1Ops.to[B](currency).setScale(SCALE, ROUNDING_MODE))
     }
 
     /**
@@ -593,61 +599,41 @@ object Currency {
      */
     def convertTo[B <: Currency : CurrencyOps](b: Rates): B = {
       val c2 = implicitly[CurrencyOps[B]]
-      c2(c1.to[B](c,b).setScale(SCALE, ROUNDING_MODE))
+      c2(c1Ops.to[B](currency,b).setScale(SCALE, ROUNDING_MODE))
     }
+
   }
 
   /**
    * Operations on currency
    *
-   * @param a
+   * @param currency
    */
-  implicit class GenericOps(val a: Currency) extends AnyVal {
-    /**
-     * return the converted value
-     *
-     * @param b
-     * @tparam T
-     * @return
-     */
-    def convertGenericToValue[T <: Currency : CurrencyOps](implicit b: Rates): CurrencyValue = convertGeneric[T](a)
+  implicit class GenericOps(val currency: Currency) extends AnyVal {
 
-    /**
-     * return the converted value
-     *
-     * @param b
-     * @tparam T
-     * @return
+    /*
+    Unwrapped conversions
      */
-    def convertGenericToValue[T <: Currency : CurrencyOps](b: Rates): CurrencyValue = {
+
+    def genericToValue[T <: Currency : CurrencyOps](implicit b: Rates): CurrencyValue = convertGeneric[T](currency)
+
+    def genericToValue[T <: Currency : CurrencyOps](b: Rates): CurrencyValue = {
       implicit val __r = b
-      convertGeneric[T](a)
+      convertGeneric[T](currency)
     }
 
-    /**
-     * Return a wrapped T for a generic instance
-     *
-     * @param b
-     * @tparam T
-     * @return
+    /*
+    Wrapped conversions
      */
-    def convertGenericToWrapped[T <: Currency : CurrencyOps](implicit b: Rates): T = {
+    def genericToWrapped[T <: Currency : CurrencyOps](implicit b: Rates): T = {
       val ops = implicitly[CurrencyOps[T]]
-      ops(convertGeneric[T](a))
+      ops(convertGeneric[T](currency))
     }
 
-    /**
-     * Return a wrapped T for a generic instance
-     *
-     * @param b
-     * @tparam T
-     * @return
-     */
-    def convertGenericToWrapped[T <: Currency : CurrencyOps](b: Rates): T = {
+    def genericToWrapped[T <: Currency : CurrencyOps](b: Rates): T = {
       implicit val __r = b
       val ops = implicitly[CurrencyOps[T]]
-      ops(convertGeneric[T](a))
+      ops(convertGeneric[T](currency))
     }
-
   }
 }

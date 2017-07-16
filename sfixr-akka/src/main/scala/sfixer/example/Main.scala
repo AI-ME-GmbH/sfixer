@@ -53,4 +53,6 @@ object Main extends App with CirceSupport{
   val oldEuros: EUR = usd.convertTo[EUR](oldRates)//Pass rates explicitly
 
   Await.result(actorsystem.terminate(), Duration.Inf)
+
 }
+
