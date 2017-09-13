@@ -22,7 +22,7 @@ lazy val scalacOpts = scalacOptions ++= Seq(
  */
 lazy val commonSettings = Seq(
   organization := "org.amaizing",
-  scalaVersion := "2.12.2",
+  scalaVersion := "2.12.3",
   resolvers ++= Seq(
     "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
     Resolver.jcenterRepo,
@@ -32,16 +32,17 @@ lazy val commonSettings = Seq(
   scalacOpts,
   crossScalaVersions := Seq( "2.11.11"),
   libraryDependencies ++= {
-    val catsV = "0.9.0"
-    val circeV = "0.8.0"
+    val catsV = "1.0.0-MF"
+    val circeV = "0.9.0-M1"
     val nscalaTimeV = "2.16.0"
     Seq(
-      "org.typelevel" %% "cats" % catsV,
+      "org.typelevel" %% "cats-core" % catsV,
       "io.circe" %% "circe-core" % circeV,
       "io.circe" %% "circe-generic" % circeV,
       "io.circe" %% "circe-parser" % circeV,
       "com.github.nscala-time" %% "nscala-time" % nscalaTimeV,
-      "com.ironcorelabs" %% "cats-scalatest" % "2.2.0" % "test"
+      "com.ironcorelabs" %% "cats-scalatest" % "2.3.0" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.13.5" % "test"
     )
   }
 )
@@ -49,11 +50,11 @@ lazy val commonSettings = Seq(
 lazy val akkaDependencies = Seq(
   name := "sfixr-akka",
   libraryDependencies ++= {
-    val akkaHttpV = "10.0.9"
-    val akkaV = "2.5.3"
+    val akkaHttpV = "10.0.10"
+    val akkaV = "2.5.4"
     val nscalaTimeV = "2.16.0"
     Seq(
-      "de.heikoseeberger" %% "akka-http-circe" % "1.12.0",
+      "de.heikoseeberger" %% "akka-http-circe" % "1.19.0-M1",
       "com.typesafe.akka" %% "akka-stream" % akkaV,
       "com.typesafe.akka" %% "akka-stream-testkit" % akkaV % Test,
       "com.typesafe.akka" %% "akka-http" % akkaHttpV,
