@@ -1,5 +1,6 @@
 package common
 
+
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.{Assertion, FlatSpec, Matchers}
 import sfixer.models.Rates.AllFixerRates

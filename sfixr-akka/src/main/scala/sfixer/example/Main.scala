@@ -6,7 +6,8 @@ import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse}
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, Unmarshal}
 import akka.stream.ActorMaterializer
 import com.github.nscala_time.time.StaticDateTime
-import de.heikoseeberger.akkahttpcirce.CirceSupport
+import de.heikoseeberger.akkahttpcirce._
+
 import io.circe.generic.auto._
 import sfixer.fixer.FixerAPIEndpoints
 import sfixer.models.Rates.AllFixerRates
@@ -15,7 +16,7 @@ import sfixer.models._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-object Main extends App with CirceSupport{
+object Main extends App with FailFastCirceSupport {
 
   implicit val actorsystem = ActorSystem("ayy")
   implicit val materializer = ActorMaterializer()
